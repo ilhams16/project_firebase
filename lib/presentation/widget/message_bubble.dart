@@ -116,23 +116,27 @@ class MessageBubble extends StatelessWidget {
                       // Set some reasonable constraints on the width of the
                       // message bubble so it can adjust to the amount of text
                       // it should show.
-                      constraints: const BoxConstraints(maxWidth: 200),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 14,
-                      ),
+                      constraints: const BoxConstraints(maxWidth: 300),
+                      padding: (imageUrl!.isNotEmpty)
+                          ? const EdgeInsets.all(5)
+                          : const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 14,
+                            ),
                       // Margin around the bubble.
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 4,
-                        horizontal: 12,
-                      ),
+                      margin: (imageUrl!.isNotEmpty)
+                          ? const EdgeInsets.all(5)
+                          : const EdgeInsets.symmetric(
+                              vertical: 10,
+                              horizontal: 14,
+                            ),
                       child: (imageUrl!.isNotEmpty)
                           ? Column(
                               children: [
                                 Image.network(
                                   imageUrl!,
-                                  height: 100,
-                                  width: 50,
+                                  height: 250,
+                                  width: 200,
                                 ),
                                 Text(
                                   message,

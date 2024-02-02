@@ -16,7 +16,7 @@ class ListMessages extends StatelessWidget {
     return StreamBuilder(
       stream: FirebaseFirestore.instance
           .collection('personal')
-          .doc(authenticatedUser.uid)
+          .orderBy('createdAt', descending: true)
           .snapshots(),
       builder: (ctx, chatSnapshots) {
         if (chatSnapshots.connectionState == ConnectionState.waiting) {
@@ -25,7 +25,7 @@ class ListMessages extends StatelessWidget {
           );
         }
 
-        if (!chatSnapshots.hasData) {
+        if (!chatSnapshots.hasData || chatSnapshots.data!.docs.isEmpty) {
           return const Center(
             child: Text('No chat found.'),
           );
@@ -37,7 +37,7 @@ class ListMessages extends StatelessWidget {
           );
         }
 
-        final loadedChat = chatSnapshots.data!;
+        final loadedChat = chatSnapshots.data!.docs;
 
         return ListView.builder(
           padding: const EdgeInsets.only(
@@ -46,9 +46,10 @@ class ListMessages extends StatelessWidget {
             right: 13,
           ),
           reverse: true,
-          itemCount: loadedChat.toString().length,
+          itemCount: loadedChat.length,
           itemBuilder: (ctx, index) {
-            return Text(loadedChat[0]);
+            print(loadedChat);
+            return Text(loadedChat[index].toString());
           },
         );
       },
